@@ -164,6 +164,8 @@ class DiffusionInputBuilder:
         llm_masks: torch.Tensor,
         txt_ids: Optional[torch.Tensor] = None,
     ) -> Dict[str, torch.Tensor]:
+        target_device = llm_embeddings.device
+        self.connector = self.connector.to(device=target_device, dtype=llm_embeddings.dtype)
         connector_out = self.connector(llm_embeddings, llm_masks)
         diffusion_inputs = {
             "llm_embedding": llm_embeddings,
